@@ -8,7 +8,7 @@ export class Conversation {
     this.logger = new Logger()
 
     for (const actor of actors) {
-      this.logger.log(actor.name, actor.seed)
+      this.logger.log(actor.name, actor.systemInstruction)
     }
   }
 
@@ -21,6 +21,10 @@ export class Conversation {
       for await (const actor of this.actors) {
         prevResponse = await actor.respond(prevResponse)
         this.logger.log(actor.name, prevResponse)
+
+        if (prevResponse.includes('END OF CONVERSATION')) {
+          return
+        }
 
         await sleep()
       }

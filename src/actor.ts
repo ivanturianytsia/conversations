@@ -1,18 +1,18 @@
 import { Message, getCompletion } from './clients/openai'
 
 export class Actor {
-  public static baseInstructions = ''
-  public static temperature = 0.5
+  public static baseInstruction = ''
+  public static temperature = 0
 
   public context: Message[] = []
-  public seed: string
+  public systemInstruction: string
 
-  constructor(public name: string, seed: string) {
-    this.seed = `${Actor.baseInstructions} ${seed}`
+  constructor(public name: string, additionalInstruction: string) {
+    this.systemInstruction = `${Actor.baseInstruction} ${additionalInstruction}`
 
     this.context.push({
       role: 'system',
-      content: seed,
+      content: this.systemInstruction,
     })
   }
 
